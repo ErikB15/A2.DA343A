@@ -1,7 +1,8 @@
 package Main;
 
+import Entity.Gui;
+import Entity.StreamHandler;
 import se.mau.DA343A.VT26.assignment2.*;
-import Controller.Controller;
 
 public class Main {
 
@@ -10,11 +11,11 @@ public class Main {
         ImageResources imageResources = new ImageResources();
         IsLandFromMaskImage isLandFromMaskImage = new IsLandFromMaskImage(imageResources.getMapIsLandMaskImage());
         WeatherServer weatherServer = new WeatherServer(isLandFromMaskImage);
+        StreamHandler streamHandler = new StreamHandler(weatherServer);
 
         Thread weatherThread = new Thread(weatherServer);
         weatherThread.start();
 
-        Controller controller = new Controller(imageResources.getMapImage());
-
+        Gui gui = new Gui(imageResources.getMapImage(), streamHandler);
         }
     }
