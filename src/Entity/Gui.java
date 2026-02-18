@@ -10,19 +10,18 @@ public class Gui extends GUI{
     private IPauseButtonPressedCallback iPauseButtonPressedCallback;
     private IPauseButtonPressedCallback callback;
     private ArrayList<IPauseButtonPressedCallback> callbacks = new ArrayList<>();
-    private StreamHandler streamHandler;
+    private WeatherServer weatherServer;
 
-
-    public Gui(BufferedImage mapImage, StreamHandler streamHandler){
+    public Gui(BufferedImage mapImage, WeatherServer weatherServer){
         super(mapImage);
-        this.streamHandler = streamHandler;
+        this.weatherServer = weatherServer;
         startGUIOnNewThread();
         addPlayPauseButtonCallback(iPauseButtonPressedCallback);
     }
 
     @Override
     public synchronized void addPlayPauseButtonCallback(IPauseButtonPressedCallback playPauseButtonPressedCallback) {
-        IPauseButtonPressedCallback callback = new Callback(playPauseButtonPressedCallback);
+        IPauseButtonPressedCallback callback = new Callback(playPauseButtonPressedCallback, weatherServer);
         this.callback = callback;
         callbacks.add(callback);
     }
@@ -37,7 +36,6 @@ public class Gui extends GUI{
     protected void invokePlayPauseButtonCallbacks(){
         for (IPauseButtonPressedCallback callback : callbacks){
             callback.playPauseButtonPressed();
-            streamHandler.stream();
             System.out.println("hej");
         }
     }
