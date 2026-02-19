@@ -7,7 +7,7 @@ import java.io.DataOutput;
 import java.util.ArrayList;
 
 
-public class Callback implements IPauseButtonPressedCallback{
+public class  Callback implements IPauseButtonPressedCallback{
     private IPauseButtonPressedCallback cacllback;
     private WeatherServer weatherServer;
     private int sensorID;
@@ -57,7 +57,7 @@ public class Callback implements IPauseButtonPressedCallback{
                 int Col = inStream.readInt();
                 double Temprature = inStream.readDouble();
 
-
+                //tbd sätt tempratur. skapåa timern uppdatera gui
             }
 
 

@@ -28,7 +28,7 @@ public class Gui extends GUI{
 
     @Override
     public void removePlayPauseButtonCallback(IPauseButtonPressedCallback iPauseButtonPressedCallback) {
-       // Callback.removeCallback(this.iPauseButtonPressedCallback);
+       callbacks.remove(this.iPauseButtonPressedCallback);
         this.iPauseButtonPressedCallback=null;
     }
 
