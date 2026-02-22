@@ -4,6 +4,7 @@ import se.mau.DA343A.VT26.assignment2.*;
 
 import java.io.DataInput;
 import java.io.DataOutput;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Callback implements IPauseButtonPressedCallback {
@@ -20,19 +21,15 @@ public class Callback implements IPauseButtonPressedCallback {
 
     @Override
     public void playPauseButtonPressed() {
-
         gui.togglePaused();
-
-        if (!initialized) {
+        if (initialized == false) {
             initialized = true;
-            querySensorList();
+            querySensors();
         }
     }
 
-    private void querySensorList() {
-
+    private void querySensors() {
         try {
-
             DataInput inStream = weatherServer.getInput();
             DataOutput outStream = weatherServer.getOutput();
 
@@ -42,34 +39,28 @@ public class Callback implements IPauseButtonPressedCallback {
             int version = inStream.readInt();
             int messageType = inStream.readInt();
 
+            if (version != 2){
+                throw new IOException("Wrong version");
+            }
+
             if (messageType == 2) {
-
                 int numberOfSensors = inStream.readInt();
-
                 for (int i = 0; i < numberOfSensors; i++) {
-
                     int sensorID = inStream.readInt();
                     String sensorName = inStream.readUTF();
-
                     sensorIDs.add(sensorID);
 
                     System.out.println("Sensor ID: " + sensorID + ", Sensor name: " + sensorName);
                 }
             }
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void fetchTemperatures() {
-
-        if (gui.isPaused()) {
-            return;
-        }
-
+    public void gatherTemperatures() {
         try {
-
             DataInput in = weatherServer.getInput();
             DataOutput out = weatherServer.getOutput();
 
@@ -80,6 +71,9 @@ public class Callback implements IPauseButtonPressedCallback {
                 out.writeInt(sensorID);
 
                 int version = in.readInt();
+                if(version !=2){
+                    throw new IOException("Wrong version");
+                }
                 int messageType = in.readInt();
                 int id = in.readInt();
                 int row = in.readInt();
@@ -88,10 +82,9 @@ public class Callback implements IPauseButtonPressedCallback {
 
                 gui.setTemperature(new GridTemperature(row, col, temperature));
             }
-
             gui.repaint();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

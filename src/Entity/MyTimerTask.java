@@ -14,10 +14,8 @@ public class MyTimerTask extends TimerTask {
 
     @Override
     public void run() {
-
         if (!gui.isPaused()) {
-            callback.fetchTemperatures();
+            callback.gatherTemperatures();
         }
-
     }
 }

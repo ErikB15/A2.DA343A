@@ -11,16 +11,13 @@ public class Gui extends GUI {
 
     private ArrayList<IPauseButtonPressedCallback> callbacks = new ArrayList<>();
     private WeatherServer weatherServer;
-
     private boolean paused = true;
     private Timer timer;
     private Callback callback;
 
     public Gui(BufferedImage mapImage, WeatherServer weatherServer) {
         super(mapImage);
-
         this.weatherServer = weatherServer;
-
         startGUIOnNewThread();
 
         callback = new Callback(weatherServer, this);
@@ -31,8 +28,8 @@ public class Gui extends GUI {
     }
 
     @Override
-    public synchronized void addPlayPauseButtonCallback(IPauseButtonPressedCallback cb) {
-        callbacks.add(cb);
+    public synchronized void addPlayPauseButtonCallback(IPauseButtonPressedCallback callback) {
+        callbacks.add(callback);
     }
 
     @Override
