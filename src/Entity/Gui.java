@@ -20,7 +20,7 @@ public class Gui extends GUI {
         this.weatherServer = weatherServer;
         startGUIOnNewThread();
 
-        callback = new Callback(weatherServer, this);
+       callback = new Callback(weatherServer, this);
         addPlayPauseButtonCallback(callback);
 
         timer = new Timer();
@@ -33,15 +33,14 @@ public class Gui extends GUI {
     }
 
     @Override
-    public synchronized void removePlayPauseButtonCallback(IPauseButtonPressedCallback cb) {
-        callbacks.remove(cb);
+    public synchronized void removePlayPauseButtonCallback(IPauseButtonPressedCallback callback) {
+        callbacks.remove(callback);
     }
 
     @Override
     protected void invokePlayPauseButtonCallbacks() {
         for (IPauseButtonPressedCallback callback : callbacks) {
             callback.playPauseButtonPressed();
-            System.out.println("hej");
         }
     }
 
