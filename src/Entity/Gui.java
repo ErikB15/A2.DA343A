@@ -41,6 +41,7 @@ public class Gui extends GUI {
     protected void invokePlayPauseButtonCallbacks() {
         for (IPauseButtonPressedCallback callback : callbacks) {
             callback.playPauseButtonPressed();
+            System.out.println("hej");
         }
     }
 
